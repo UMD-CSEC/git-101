@@ -61,6 +61,14 @@ similar SCM) on a daily basis.
 * Lots of interesting incidental topics: file diffing, conflict resolution (not the HR kind),
 proper project planning, &c.
 
+## Terminology gloss
+
+* Repository - A directory managed by Git
+* Working tree - The current state of the repository
+* Commit - A discrete set of changes to the repository
+* Branch - A labeled collection of changes to the repository
+* Remote - A remote copy of the repository
+
 ## How do I use `git`?
 
 First, you'll have to have it installed. You can install it and follow along with
@@ -165,6 +173,18 @@ $ git push origin new-branch
 Pushing a new branch up to your `origin` is the most common way to start a Pull Request on
 GitHub!
 
+## Branching, visualized
+
+\includegraphics[width=\textwidth]{branching.png}
+
+*(Credit: GitHub)*
+
+## The whole picture
+
+\includegraphics[height=7.8cm]{remotes.png}
+
+*(Credit: Oliver Steele)*
+
 ## A quick recap
 
 99% of your daily Git usage will look something like this:
@@ -259,11 +279,13 @@ gives you an idea of what's in the branch ("a new HTTPS module") and is easier t
 Working on the `master` branch is okay for personal projects and small changes, but you should be
 using separate branches for larger changes!
 
-## Terminology gloss
+# Questions?
 
-* Repository - A directory managed by Git
-* Working tree - The current state of the repository
-* Commit - A discrete set of changes to the repository
-* Branch - A labeled collection of changes to the repository
-* Remote - A remote copy of the repository
+## Miscellanea
+
+The presentation slides are available on GitHub:
+
+* <https://github.com/UMD-CSEC/git-101>
+
+The Git logo is licensed under CC 3.0 by the Git team.
 
