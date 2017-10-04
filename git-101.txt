@@ -9,7 +9,7 @@
 ### 3. How do I use `git`?
 ### 4. Some `git` best practices
 
-## Some background on Git
+## Some quick background
 
 Prior to 2005, the Linux kernel used BitKeeper for source control management ("SCM").
 
