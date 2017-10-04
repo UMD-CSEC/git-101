@@ -106,7 +106,7 @@ $ git add README.md
 $ git commit # opens up your editor!
 ```
 
-Note that `git add` just used to mark a file for staging -- you can also `git add` a file that's
+Note that `git add` are just used to mark a file for staging -- you can also `git add` a file that's
 just been deleted, in order to commit the deletion.
 
 We'll go into best practices for adding and committing in a bit.
