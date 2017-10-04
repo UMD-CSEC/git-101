@@ -7,7 +7,7 @@
 ### 1. What is Git?
 ### 2. Why should I care?
 ### 3. How do I use `git`?
-### 4. How do I use `git` *properly*?
+### 4. Some `git` best practices
 
 ## Some background on Git
 
@@ -85,18 +85,185 @@ $ git init # creates a new repository inside "my-repo"
 
 ## Adding, removing, and modifying files
 
-We now have a local copy of the repository, which we can modify to our hearts' content.
+We now have a local copy of the repository, which we can edit as we please.
 
+Doing so modifies the *working tree*, which is the collection of changes that haven't been made
+permanent via a *commit*.
 
-## Looking around
+To commit a set of changes, we `git add` the files we want and then use `git commit` to compose
+a message:
 
-Now that we're in a repository, we can look around a bit:
+```bash
+$ git add README.md
+$ git commit # opens up your editor!
+```
 
-* `git status` - Show unstaged changes to the repository
-    * DIY: Create a new file in the repo, and run `git status`. What changes?
-* `git diff` - Show unstaged *modifications* to files
-    * DIY: Change an extant file in the repo, and run `git diff`. What does it show?
-* `git log` - Show the commit logs for the repository
-    * DIY:
+Note that `git add` just used to mark a file for staging -- you can also `git add` a file that's
+just been deleted, in order to commit the deletion.
 
+We'll go into best practices for adding and committing in a bit.
+
+## Pushing
+
+When we made the commit on the last slide, we actually did it on a *branch*, which is a linked
+list of *commit objects* that contains the complete history of changes to the repository. Since
+we didn't do anything special when running `git commit`, the commit was made to the `master` branch
+(which is the default branch created by Git).
+
+However, we don't want to keep our changes local -- we want to *push* them to a *remote* copy
+of the repository that we control. This adds redundancy and makes our changes accessible to others.
+
+We do this via `git push`:
+
+```bash
+$ git push origin master
+```
+
+Which means "push the `master` branch to the remote repository named `origin`."
+
+## Branches and remotes
+
+The pushing example introduced a particular branch (`master`) and a particular remote (`origin`),
+but it's worth noting that a Git repository can have many branches and many remotes.
+
+Some common branch names:
+
+* `devel` or `unstable` - Often used as a working branch instead of `master`, to indicate the
+untested or unaudited code within.
+* Version numbers - `git tag` can mark the current commit with a number
+that behaves like a branch, e.g. `v1.0`.
+
+Some common remotes:
+
+* `upstream` - Used to fetch changes from a canonical "upstream" source, like the main developers
+of a project.
+* Other clone names - Used to fetch another user's changes to the same project, for testing or
+merging into your own work.
+
+## Branches and remotes, cont.
+
+This is Git 101, so the `master` branch and the `origin` remote will be your biggest friends.
+
+However, sometimes it's nice to create a new branch to work in:
+
+```bash
+$ git checkout -b new-branch
+$ # make some changes
+$ git add <files>; git commit
+```
+
+We can then choose to merge `new-branch` back into `master` (or another branch), or to `git push`
+it up to one of our remotes:
+
+```bash
+$ git checkout master # go back to master
+$ git merge new-branch # merge `new-branch' into master
+$ # OR:
+$ git push origin new-branch
+```
+
+Pushing a new branch up to your `origin` is the most common way to start a Pull Request on
+GitHub!
+
+## A quick recap
+
+99% of your daily Git usage will look something like this:
+
+```bash
+$ git add <filespec>
+$ git commit
+$ git push <remote> <branch>
+```
+
+The other 1% will be managing your remotes and branches:
+
+```bash
+$ git remote add <remote-name> <url>
+$ git remote remove <remote-name>
+$ git merge <source-branch>
+$ git rebase <source-branch>
+```
+
+Each of the commands above could take up their own slide, and we'll go over them in detail in Git
+102*. In the meantime, the manual pages are your friend!
+
+\tiny{* If requested by the CSEC overlords.}
+
+## Some `git` best practices
+
+Now that we know the basics of using `git`, it's important to learn some best practices:
+
+* Descriptive `git commit` messages
+* "Semantic" commits
+* Branch naming and usage
+
+## Best practices - `git commit` messages
+
+The average GitHub project's commit history looks something like this:
+
+```
+fix 1
+2nd fix
+x
+stupid bug
+added foo
+```
+
+This is usually caused by laziness, and *abusing* `git commit -m` (which allows you to commit
+without opening your editor).
+
+The problems: inconsistent formatting and lack of detail.
+
+## `git commit` messages cont.
+
+A *good* `git commit` message looks something like this:
+
+```
+component: Short description
+
+Component now does a, b, and c instead of
+x, y, and z. Component now understands HTTPS.
+```
+
+Observe:
+
+* The first line designates the component being changed, and is under 50 characters.
+* A blank line separates the first line from the rest of the message.
+* The body of the message uses the imperative mood, and each line is under 70 characters.
+* `component` is whatever you're changing (e.g., `api` or `docs`).
+* Using Markdown in the message is good!
+
+## Semantic commits
+
+In addition to descriptive commit messages, it's good to commit your changes *semantically*.
+
+That means that mutually dependent changes should be committed together (even if they're in
+different files/parts of the project), and that unrelated changes should get their own commit(s).
+
+Examples:
+
+* API change and documentation change -- commit together
+    * Reason: The documentation reflects the API, and should be in sync with it.
+* Feature addition and version bump -- commit separately
+    * Reason: Version bumps are a separate activity, and deserve their own commits.
+* Bug fix and new test case -- commit together
+    * Reason: The bug fix is verified by the new test case.
+
+## Branch naming and usage
+
+Branch names, like `git commit` messages, should also be descriptive (but much briefer).
+
+`branch-27` means nothing and is hard to remember if you have 500 branches, while `new-https-module`
+gives you an idea of what's in the branch ("a new HTTPS module") and is easier to remember.
+
+Working on the `master` branch is okay for personal projects and small changes, but you should be
+using separate branches for larger changes!
+
+## Terminology gloss
+
+* Repository - A directory managed by Git
+* Working tree - The current state of the repository
+* Commit - A discrete set of changes to the repository
+* Branch - A labeled collection of changes to the repository
+* Remote - A remote copy of the repository
 
